@@ -1,0 +1,12 @@
+trigger chnageMailingCityOfContactBasedonAccountBilling on Account (before Update) {
+    Map<Id,Account> nMap= new Map<Id,Account>();
+    nMap = Trigger.newMap;
+    
+    List<Contact> cList = [Select LastName,AccountId,MailingCity from Contact where AccountId In :nMap.keySet()];
+    for(Contact c:cList)
+    {
+        Account a = nMap.get(c.AccountId);
+        c.MailingCity = a.BillingCity;
+    }
+    update cList;
+}
