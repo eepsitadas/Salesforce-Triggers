@@ -1,0 +1,16 @@
+trigger PreventToChangeOppAmoun on Opportunity (before update) {
+
+for(Opportunity oldOpp:Trigger.old)
+{
+    
+    for(Opportunity newOpp:Trigger.new){
+        if(oldOpp.Id == newOpp.Id && oldOpp.Amount != newOpp.Amount)
+        {
+            newOpp.addError('You cant change the amount');
+        }
+        
+    }
+    
+}    
+
+}
